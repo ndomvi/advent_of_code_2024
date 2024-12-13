@@ -1,0 +1,33 @@
+[package]
+name = "advent_of_code_2024"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cached = "0.54.0"
+pathfinding = "4.11.0"
+regex = "1.11.1"
+
+aoc-runner = "0.3.0"
+aoc-runner-derive = "0.3.0"
+rayon = "1.10.0"
+
+[dependencies.smallvec]
+version = "1.13.2"
+features = ["union"]
+
+[profile.release]
+lto = true
+codegen-units = 1
+
+#[lints.clippy]
+#nursery = "warn"
+#pedantic = "warn"
+#restriction = "warn"
+#
+#implicit_return = "allow"
+#missing_docs = "allow"
+#missing_docs_in_private_items = "allow"
+#shadow_reuse = "allow"
+#std_instead_of_core = "allow"
+#min_ident_chars = "allow"
