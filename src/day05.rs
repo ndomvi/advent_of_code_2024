@@ -72,8 +72,8 @@ fn part1((rules, updates): &ParsedInput) -> i64 {
     res as i64
 }
 
-fn fix_update(update: &Vec<u32>, rules: &RulesType) -> SmallVec<[u32; 32]> {
-    let mut update = update.clone();
+fn fix_update(update: &[u32], rules: &RulesType) -> SmallVec<[u32; 32]> {
+    let mut update = update.to_owned();
     let mut fixed = SmallVec::new();
     while !update.is_empty() {
         'candidate: for (idx, page) in update.iter().enumerate() {
