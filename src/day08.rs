@@ -1,6 +1,5 @@
 use std::{
     collections::{HashMap, HashSet},
-    error::Error,
     ops::{Add, Sub},
 };
 
@@ -13,7 +12,7 @@ struct Point {
 }
 
 impl Add for Point {
-    type Output = Point;
+    type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
         Self {
@@ -24,7 +23,7 @@ impl Add for Point {
 }
 
 impl Sub for Point {
-    type Output = Point;
+    type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
         Point {
@@ -60,7 +59,7 @@ fn parse(input: &str) -> ParsedInput {
                 .and_modify(|e: &mut Vec<Point>| {
                     e.push(point);
                 })
-                .or_insert(vec![point]);
+                .or_insert_with(|| vec![point]);
         }
     }
 
@@ -68,7 +67,7 @@ fn parse(input: &str) -> ParsedInput {
 }
 
 #[aoc(day08, part1)]
-fn part1((dims, antennas): &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part1((dims, antennas): &ParsedInput) -> i64 {
     let mut antinodes = HashSet::new();
     for antennas_freq in antennas.values() {
         for center in antennas_freq {
@@ -81,11 +80,11 @@ fn part1((dims, antennas): &ParsedInput) -> Result<i64, Box<dyn Error>> {
         }
     }
 
-    Ok(antinodes.len() as i64)
+    antinodes.len() as i64
 }
 
 #[aoc(day08, part2)]
-fn part2((dims, antennas): &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part2((dims, antennas): &ParsedInput) -> i64 {
     let mut antinodes = HashSet::new();
     for antennas_freq in antennas.values() {
         for center in antennas_freq {
@@ -100,7 +99,7 @@ fn part2((dims, antennas): &ParsedInput) -> Result<i64, Box<dyn Error>> {
         }
     }
 
-    Ok(antinodes.len() as i64)
+    antinodes.len() as i64
 }
 
 #[cfg(test)]
@@ -132,16 +131,16 @@ mod tests {
 .........."#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 14);
+        assert_eq!(part1(&parse(TESTCASE)), 14);
     }
 
     #[test]
     fn part1_example_2() {
-        assert_eq!(part1(&parse(TESTCASE_2)).unwrap(), 4);
+        assert_eq!(part1(&parse(TESTCASE_2)), 4);
     }
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)).unwrap(), 34);
+        assert_eq!(part2(&parse(TESTCASE)), 34);
     }
 }

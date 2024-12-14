@@ -1,9 +1,6 @@
-use std::error::Error;
-
 use aoc_runner_derive::{aoc, aoc_generator};
-use smallvec::SmallVec;
 
-type ParsedInput = SmallVec<[SmallVec<[char; 256]>; 256]>;
+type ParsedInput = Vec<Vec<char>>;
 
 #[aoc_generator(day04)]
 fn parse(input: &str) -> ParsedInput {
@@ -23,13 +20,13 @@ fn explore(map: &ParsedInput, x: i32, y: i32, (dir_x, dir_y): (i32, i32), idx: u
 
     // Current char is wrong
     if map[y as usize][x as usize] != CHARS[idx] {
-        return false;
+        false
     } else if idx == CHARS.len() - 1 {
         // The char is correct and we are at the last char
-        return true;
+        true
+    } else {
+        explore(map, x + dir_x, y + dir_y, (dir_x, dir_y), idx + 1)
     }
-
-    explore(map, x + dir_x, y + dir_y, (dir_x, dir_y), idx + 1)
 }
 
 const DIRS: [(i32, i32); 8] = [
@@ -44,7 +41,7 @@ const DIRS: [(i32, i32); 8] = [
 ];
 
 #[aoc(day04, part1)]
-fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part1(input: &ParsedInput) -> i64 {
     let mut res = 0;
     for y in 0..input.len() {
         for x in 0..input[y].len() {
@@ -56,11 +53,11 @@ fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
         }
     }
 
-    Ok(res)
+    res
 }
 
 #[aoc(day04, part2)]
-fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part2(input: &ParsedInput) -> i64 {
     let mut res = 0;
     for y in 1..input.len() - 1 {
         for x in 1..input[y].len() - 1 {
@@ -78,7 +75,7 @@ fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
         }
     }
 
-    Ok(res)
+    res
 }
 
 #[cfg(test)]
@@ -97,11 +94,11 @@ MAMMMXMMMM
 MXMXAXMASX"#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 18);
+        assert_eq!(part1(&parse(TESTCASE)), 18);
     }
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)).unwrap(), 9);
+        assert_eq!(part2(&parse(TESTCASE)), 9);
     }
 }

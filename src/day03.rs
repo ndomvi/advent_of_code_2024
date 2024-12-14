@@ -1,5 +1,3 @@
-use std::error::Error;
-
 use aoc_runner_derive::{aoc, aoc_generator};
 use regex::Regex;
 
@@ -11,7 +9,7 @@ fn parse(input: &str) -> ParsedInput {
 }
 
 #[aoc(day03, part1)]
-fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part1(input: &ParsedInput) -> i64 {
     let mut res: i64 = 0;
     let re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)").unwrap();
     for l in input {
@@ -21,11 +19,11 @@ fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
         });
     }
 
-    Ok(res)
+    res
 }
 
 #[aoc(day03, part2)]
-fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part2(input: &ParsedInput) -> i64 {
     let mut res: i64 = 0;
     let re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)|do\(\)|don\'t\(\)").unwrap();
     let mut enabled = true;
@@ -37,13 +35,13 @@ fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
                 _ => {
                     if enabled {
                         res += m.get(1).unwrap().as_str().parse::<i64>().unwrap()
-                            * m.get(2).unwrap().as_str().parse::<i64>().unwrap()
+                            * m.get(2).unwrap().as_str().parse::<i64>().unwrap();
                     }
                 }
             });
     }
 
-    Ok(res)
+    res
 }
 
 #[cfg(test)]
@@ -54,7 +52,7 @@ mod tests {
         r#"xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 161);
+        assert_eq!(part1(&parse(TESTCASE)), 161);
     }
 
     #[test]
@@ -62,8 +60,7 @@ mod tests {
         assert_eq!(
             part2(&parse(
                 r#"xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"#
-            ))
-            .unwrap(),
+            )),
             48
         );
     }

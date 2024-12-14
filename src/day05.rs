@@ -1,13 +1,10 @@
-use std::{
-    collections::{HashMap, HashSet},
-    error::Error,
-};
+use std::collections::{HashMap, HashSet};
 
 use aoc_runner_derive::{aoc, aoc_generator};
 use smallvec::SmallVec;
 
 type RulesType = HashMap<u32, HashSet<u32>>;
-type ParsedInput = (RulesType, Vec<SmallVec<[u32; 32]>>);
+type ParsedInput = (RulesType, Vec<Vec<u32>>);
 
 #[aoc_generator(day05)]
 fn parse(input: &str) -> ParsedInput {
@@ -31,7 +28,7 @@ fn parse(input: &str) -> ParsedInput {
             .and_modify(|r| {
                 r.insert(rule.0);
             })
-            .or_insert(HashSet::from([rule.0]));
+            .or_insert_with(|| HashSet::from([rule.0]));
     }
 
     let updates = input
@@ -47,7 +44,7 @@ fn parse(input: &str) -> ParsedInput {
     (rules, updates)
 }
 
-fn validate_update(update: &SmallVec<[u32; 32]>, rules: &RulesType) -> bool {
+fn validate_update(update: &[u32], rules: &RulesType) -> bool {
     let mut banned: HashSet<u32> = HashSet::new();
 
     for page in update {
@@ -63,7 +60,7 @@ fn validate_update(update: &SmallVec<[u32; 32]>, rules: &RulesType) -> bool {
 }
 
 #[aoc(day05, part1)]
-fn part1((rules, updates): &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part1((rules, updates): &ParsedInput) -> i64 {
     let mut res = 0;
 
     for update in updates {
@@ -72,10 +69,10 @@ fn part1((rules, updates): &ParsedInput) -> Result<i64, Box<dyn Error>> {
         }
     }
 
-    Ok(res as i64)
+    res as i64
 }
 
-fn fix_update(update: &SmallVec<[u32; 32]>, rules: &RulesType) -> SmallVec<[u32; 32]> {
+fn fix_update(update: &Vec<u32>, rules: &RulesType) -> SmallVec<[u32; 32]> {
     let mut update = update.clone();
     let mut fixed = SmallVec::new();
     while !update.is_empty() {
@@ -99,7 +96,7 @@ fn fix_update(update: &SmallVec<[u32; 32]>, rules: &RulesType) -> SmallVec<[u32;
 }
 
 #[aoc(day05, part2)]
-fn part2((rules, updates): &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part2((rules, updates): &ParsedInput) -> i64 {
     let mut res = 0;
 
     for update in updates {
@@ -109,7 +106,7 @@ fn part2((rules, updates): &ParsedInput) -> Result<i64, Box<dyn Error>> {
         }
     }
 
-    Ok(res as i64)
+    res as i64
 }
 
 #[cfg(test)]
@@ -147,11 +144,11 @@ mod tests {
 "#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 143);
+        assert_eq!(part1(&parse(TESTCASE)), 143);
     }
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)).unwrap(), 123);
+        assert_eq!(part2(&parse(TESTCASE)), 123);
     }
 }

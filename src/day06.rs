@@ -1,4 +1,4 @@
-use std::{collections::HashSet, error::Error, ops::Add};
+use std::{collections::HashSet, ops::Add};
 
 use aoc_runner_derive::{aoc, aoc_generator};
 use rayon::prelude::*;
@@ -11,7 +11,7 @@ struct Point {
 }
 
 impl Add for Point {
-    type Output = Point;
+    type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
         Self {
@@ -83,17 +83,17 @@ fn find_visited((dims, start, obstacles): &ParsedInput) -> (HashSet<(Point, Poin
 }
 
 #[aoc(day06, part1)]
-fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
-    Ok(find_visited(input)
+fn part1(input: &ParsedInput) -> i64 {
+    find_visited(input)
         .0
         .iter()
         .map(|v| v.0)
         .collect::<HashSet<_>>()
-        .len() as i64)
+        .len() as i64
 }
 
 #[aoc(day06, part2)]
-fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part2(input: &ParsedInput) -> i64 {
     let visited = find_visited(input)
         .0
         .iter()
@@ -109,7 +109,7 @@ fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
         })
         .count();
 
-    Ok(res as i64)
+    res as i64
 }
 
 #[cfg(test)]
@@ -128,11 +128,11 @@ mod tests {
 ......#..."#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 41);
+        assert_eq!(part1(&parse(TESTCASE)), 41);
     }
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)).unwrap(), 6);
+        assert_eq!(part2(&parse(TESTCASE)), 6);
     }
 }

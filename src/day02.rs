@@ -1,8 +1,7 @@
-use std::error::Error;
-
 use aoc_runner_derive::{aoc, aoc_generator};
 use smallvec::SmallVec;
 
+// SmallVec is a ~20% speedup in part 2, and a minor degradation in part 1
 type ParsedInput = Vec<SmallVec<[i32; 16]>>;
 
 #[aoc_generator(day02)]
@@ -31,7 +30,7 @@ fn check_report(report: &SmallVec<[i32; 16]>) -> bool {
 }
 
 #[aoc(day02, part1)]
-fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part1(input: &ParsedInput) -> i64 {
     let mut res = 0;
 
     for i in input {
@@ -39,7 +38,7 @@ fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
             res += 1;
         }
     }
-    Ok(res)
+    res
 }
 
 fn check_report_2(report: &SmallVec<[i32; 16]>, removed: bool) -> bool {
@@ -69,7 +68,7 @@ fn check_report_2(report: &SmallVec<[i32; 16]>, removed: bool) -> bool {
 }
 
 #[aoc(day02, part2)]
-fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part2(input: &ParsedInput) -> i64 {
     let mut res = 0;
 
     for i in input {
@@ -78,7 +77,7 @@ fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
         }
     }
 
-    Ok(res)
+    res
 }
 
 #[cfg(test)]
@@ -93,12 +92,12 @@ mod tests {
 1 3 6 7 9"#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 2);
+        assert_eq!(part1(&parse(TESTCASE)), 2);
     }
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)).unwrap(), 4);
+        assert_eq!(part2(&parse(TESTCASE)), 4);
     }
 
     #[test]
@@ -109,8 +108,7 @@ mod tests {
 43 41 43 45 46 49
 21 24 23 21 20 19 18
 26 24 26 29 30 31 33 34"#
-            ))
-            .unwrap(),
+            )),
             4
         );
     }

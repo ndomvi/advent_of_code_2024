@@ -1,5 +1,3 @@
-use std::error::Error;
-
 use aoc_runner_derive::{aoc, aoc_generator};
 use rayon::prelude::*;
 
@@ -36,31 +34,19 @@ fn calculate(goal: u64, cur: u64, idx: usize, values: &Vec<u64>) -> bool {
 }
 
 #[aoc(day07, part1)]
-fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
-    Ok(input
+fn part1(input: &ParsedInput) -> i64 {
+    input
         .iter()
-        .filter_map(|(goal, values)| {
-            if calculate(*goal, values[0], 1, values) {
-                Some(goal)
-            } else {
-                None
-            }
-        })
-        .sum::<u64>() as i64)
+        .filter_map(|(goal, values)| calculate(*goal, values[0], 1, values).then_some(goal))
+        .sum::<u64>() as i64
 }
 
 #[aoc(day07, part1, rayon)]
-fn part1_rayon(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
-    Ok(input
+fn part1_rayon(input: &ParsedInput) -> i64 {
+    input
         .par_iter()
-        .filter_map(|(goal, values)| {
-            if calculate(*goal, values[0], 1, values) {
-                Some(goal)
-            } else {
-                None
-            }
-        })
-        .sum::<u64>() as i64)
+        .filter_map(|(goal, values)| calculate(*goal, values[0], 1, values).then_some(goal))
+        .sum::<u64>() as i64
 }
 
 fn calculate_2(goal: u64, cur: u64, idx: usize, values: &Vec<u64>) -> bool {
@@ -86,17 +72,11 @@ fn calculate_2(goal: u64, cur: u64, idx: usize, values: &Vec<u64>) -> bool {
 }
 
 #[aoc(day07, part2)]
-fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
-    Ok(input
+fn part2(input: &ParsedInput) -> i64 {
+    input
         .par_iter()
-        .filter_map(|(goal, values)| {
-            if calculate_2(*goal, values[0], 1, values) {
-                Some(goal)
-            } else {
-                None
-            }
-        })
-        .sum::<u64>() as i64)
+        .filter_map(|(goal, values)| calculate_2(*goal, values[0], 1, values).then_some(goal))
+        .sum::<u64>() as i64
 }
 
 #[cfg(test)]
@@ -114,11 +94,11 @@ mod tests {
 292: 11 6 16 20"#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 3749);
+        assert_eq!(part1(&parse(TESTCASE)), 3749);
     }
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)).unwrap(), 11387);
+        assert_eq!(part2(&parse(TESTCASE)), 11387);
     }
 }

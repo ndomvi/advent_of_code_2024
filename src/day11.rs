@@ -1,5 +1,4 @@
 use cached::proc_macro::cached;
-use std::error::Error;
 
 use aoc_runner_derive::{aoc, aoc_generator};
 
@@ -33,13 +32,13 @@ fn blink(stone: u64, num_blinks: u32) -> u64 {
 }
 
 #[aoc(day11, part1)]
-fn part1(input: &ParsedInput) -> Result<u64, Box<dyn Error>> {
-    Ok(input.iter().map(|stone| blink(*stone, 25)).sum())
+fn part1(input: &ParsedInput) -> u64 {
+    input.iter().map(|stone| blink(*stone, 25)).sum()
 }
 
 #[aoc(day11, part2)]
-fn part2(input: &ParsedInput) -> Result<u64, Box<dyn Error>> {
-    Ok(input.iter().map(|stone| blink(*stone, 75)).sum())
+fn part2(input: &ParsedInput) -> u64 {
+    input.iter().map(|stone| blink(*stone, 75)).sum()
 }
 
 #[cfg(test)]
@@ -49,12 +48,12 @@ mod tests {
     const TESTCASE: &str = r#"125 17"#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 55312);
+        assert_eq!(part1(&parse(TESTCASE)), 55312);
     }
 
     #[test]
     #[ignore]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)).unwrap(), 0);
+        assert_eq!(part2(&parse(TESTCASE)), 0);
     }
 }
