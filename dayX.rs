@@ -1,5 +1,3 @@
-use std::error::Error;
-
 use aoc_runner_derive::{aoc, aoc_generator};
 
 type ParsedInput = Vec<String>;
@@ -10,15 +8,14 @@ fn parse(input: &str) -> ParsedInput {
 }
 
 #[aoc(dayX, part1)]
-fn part1(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part1(input: &ParsedInput) -> i64 {
     todo!()
 }
 
 #[aoc(dayX, part2)]
-fn part2(input: &ParsedInput) -> Result<i64, Box<dyn Error>> {
+fn part2(input: &ParsedInput) -> i64 {
     todo!()
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -27,12 +24,12 @@ mod tests {
     const TESTCASE: &str = r#""#;
     #[test]
     fn part1_example() {
-        assert_eq!(part1(&parse(TESTCASE)).unwrap(), 0);
+        assert_eq!(part1(&parse(TESTCASE)), 0);
     }
 
     #[test]
     #[ignore]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)).unwrap(), 0);
+        assert_eq!(part2(&parse(TESTCASE)), 0);
     }
 }

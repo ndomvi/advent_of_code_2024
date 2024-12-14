@@ -52,8 +52,8 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn part2_example() {
-        assert_eq!(part2(&parse(TESTCASE)), 0);
+        // Correct value generated using a working solution; it hasn't been provided
+        assert_eq!(part2(&parse(TESTCASE)), 65601038650482);
     }
 }
