@@ -1,9 +1,7 @@
-use std::{
-    collections::{HashMap, HashSet},
-    ops::{Add, Sub},
-};
+use std::ops::{Add, Sub};
 
 use aoc_runner_derive::{aoc, aoc_generator};
+use hashbrown::{HashMap, HashSet};
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 struct Point {

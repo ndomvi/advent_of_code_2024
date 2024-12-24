@@ -1,6 +1,7 @@
-use std::{collections::HashSet, ops::Add};
+use std::ops::Add;
 
 use aoc_runner_derive::{aoc, aoc_generator};
+use hashbrown::HashSet;
 use rayon::prelude::*;
 
 type ParsedInput = (Point, Point, HashSet<Point>);

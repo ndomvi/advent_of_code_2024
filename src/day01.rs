@@ -1,6 +1,5 @@
-use std::collections::HashMap;
-
 use aoc_runner_derive::{aoc, aoc_generator};
+use hashbrown::HashMap;
 
 type ParsedInput = (Vec<i32>, Vec<i32>);
 
