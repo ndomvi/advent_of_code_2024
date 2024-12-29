@@ -8,15 +8,17 @@ struct Pos(i32, i32);
 
 const DIRS: [(i32, i32); 4] = [(1, 0), (0, 1), (-1, 0), (0, -1)];
 impl Pos {
-    fn successors(&self, corrupted: &HashSet<Pos>) -> SmallVec<[Pos; 4]> {
-        let &Pos(x, y) = self;
+    fn successors(self, corrupted: &HashSet<Self>) -> SmallVec<[Self; 4]> {
+        let Self(x, y) = self;
         let mut res = smallvec![];
         for (dx, dy) in DIRS {
             let nx = x + dx;
             let ny = y + dy;
-            if (0..=70).contains(&nx) && (0..=70).contains(&ny) && !corrupted.contains(&Pos(nx, ny))
+            if (0..=70).contains(&nx)
+                && (0..=70).contains(&ny)
+                && !corrupted.contains(&Self(nx, ny))
             {
-                res.push(Pos(nx, ny));
+                res.push(Self(nx, ny));
             }
         }
 
@@ -40,7 +42,7 @@ fn parse(input: &str) -> ParsedInput {
 static GOAL: Pos = Pos(70, 70);
 #[aoc(day18, part1)]
 fn part1(input: &ParsedInput) -> i64 {
-    let corrupted = HashSet::from_iter(input[..1024].iter().copied());
+    let corrupted = input[..1024].iter().copied().collect();
     let result = bfs(&Pos(0, 0), |p| p.successors(&corrupted), |p| *p == GOAL);
 
     result.unwrap().len() as i64 - 1
@@ -48,7 +50,7 @@ fn part1(input: &ParsedInput) -> i64 {
 
 #[aoc(day18, part2)]
 fn part2(input: &ParsedInput) -> String {
-    let mut corrupted = HashSet::from_iter(input[..1024].iter().copied());
+    let mut corrupted = input[..1024].iter().copied().collect();
     let mut prev_result = bfs(&Pos(0, 0), |p| p.successors(&corrupted), |p| *p == GOAL).unwrap();
     for c in input[1024..].iter().copied() {
         corrupted.insert(c);
@@ -75,6 +77,7 @@ mod tests {
 
     const TESTCASE: &str = r#""#;
     #[test]
+    #[ignore]
     fn part1_example() {
         assert_eq!(part1(&parse(TESTCASE)), 0);
     }

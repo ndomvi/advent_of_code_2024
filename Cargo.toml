@@ -4,13 +4,16 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-cached = "0.54.0"
 pathfinding = "4.12.0"
 regex = "1.11.1"
 
 aoc-runner = "0.3.0"
 aoc-runner-derive = "0.3.0"
 rayon = "1.10.0"
+
+[dependencies.cached]
+version = "0.54.0"
+features = ["ahash"]
 
 [dependencies.hashbrown]
 version = "0.15.2"
@@ -28,7 +31,7 @@ codegen-units = 1
 #nursery = "warn"
 #pedantic = "warn"
 #restriction = "warn"
-#
+
 #implicit_return = "allow"
 #missing_docs = "allow"
 #missing_docs_in_private_items = "allow"
